@@ -7,9 +7,7 @@ use bevy::{
     window::{CursorEntered, CursorLeft, CursorMoved, Window, WindowEvent},
 };
 use smithay_client_toolkit::{
-    delegate_pointer,
-    reexports::{client::Proxy, csd_frame::WindowState},
-    seat::pointer::PointerHandler,
+    delegate_pointer, reexports::client::Proxy, seat::pointer::PointerHandler,
 };
 
 use crate::{surface_handler::WaylandSurfaces, WaylandState};
@@ -101,6 +99,27 @@ impl PointerHandler for WaylandState {
                 .into(),
             };
             let window_event: WindowEvent = pointer_event;
+            match window_event.clone() {
+                WindowEvent::CursorEntered(e) => {
+                    self.world_mut().send_event(e);
+                }
+                WindowEvent::CursorLeft(e) => {
+                    self.world_mut().send_event(e);
+                }
+                WindowEvent::CursorMoved(e) => {
+                    self.world_mut().send_event(e);
+                }
+                WindowEvent::MouseButtonInput(e) => {
+                    self.world_mut().send_event(e);
+                }
+                WindowEvent::MouseMotion(e) => {
+                    self.world_mut().send_event(e);
+                }
+                WindowEvent::MouseWheel(e) => {
+                    self.world_mut().send_event(e);
+                }
+                _ => {}
+            }
             self.world_mut().send_event::<WindowEvent>(window_event);
         }
     }
