@@ -1,11 +1,12 @@
 use bevy::{app::PluginsState, prelude::*};
 use smithay_client_toolkit::{
     delegate_registry,
+    globals::ProvidesBoundGlobal,
     output::OutputState,
     reexports::{
         calloop::EventLoop,
         calloop_wayland_source::WaylandSource,
-        client::{globals::registry_queue_init, Connection},
+        client::{globals::registry_queue_init, protocol::wl_compositor::WlCompositor, Connection},
     },
     registry::{ProvidesRegistryState, RegistryState},
     registry_handlers,
@@ -13,6 +14,7 @@ use smithay_client_toolkit::{
 };
 
 mod input_handler;
+pub mod input_region;
 pub mod layer_shell;
 mod output_handler;
 mod surface_handler;
@@ -44,6 +46,7 @@ impl Plugin for WaylandPlugin {
             input_handler::InputHandlerPlugin,
             surface_handler::SurfaceHandlerPlugin,
             layer_shell::LayerShellPlugin,
+            input_region::InputRegionPlugin,
         ));
         app.set_runner(|app| runner(app, event_loop));
     }
@@ -76,4 +79,5 @@ impl ProvidesRegistryState for WaylandState {
     }
     registry_handlers!(OutputState, SeatState);
 }
+
 delegate_registry!(WaylandState);

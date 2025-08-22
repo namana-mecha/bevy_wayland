@@ -19,6 +19,8 @@ use smithay_client_toolkit::{
 
 use crate::WaylandState;
 
+#[derive(Component)]
+pub struct SurfaceConfigured;
 pub struct SurfaceHandlerPlugin;
 impl Plugin for SurfaceHandlerPlugin {
     fn build(&self, app: &mut App) {
@@ -113,6 +115,10 @@ impl WaylandSurfaces {
             .get(&entity)
             .map(|surface_id| self.windows.get(surface_id))?
     }
+
+    pub fn get_window_entity(&self, surface_id: &ObjectId) -> Option<&Entity> {
+        self.surface_to_entity.get(surface_id)
+    }
 }
 
 pub struct WaylandSurface {
@@ -173,8 +179,6 @@ pub fn create_windows(
         if wayland_surfaces.get_window_wrapper(entity).is_some() {
             continue;
         }
-        println!("Creating Window");
-
         let surface = wayland_surfaces.create_surface(
             entity,
             &queue_handle,
