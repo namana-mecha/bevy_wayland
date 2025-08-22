@@ -47,11 +47,11 @@ impl SeatHandler for WaylandState {
         capability: smithay_client_toolkit::seat::Capability,
     ) {
         if capability == Capability::Keyboard {
-            //let mut seat_state = self.world_mut().non_send_resource_mut::<SeatState>();
-            //let wl_keyboard = seat_state
-            //    .get_keyboard(qh, &seat, None)
-            //    .expect("error while attaching keyboard!");
-            //self.world_mut().insert_non_send_resource(wl_keyboard);
+            let mut seat_state = self.world_mut().non_send_resource_mut::<SeatState>();
+            let wl_keyboard = seat_state
+                .get_keyboard(qh, &seat, None)
+                .expect("error while attaching keyboard!");
+            self.world_mut().insert_non_send_resource(wl_keyboard);
             info!("Keyboard Attached");
         }
         if capability == Capability::Pointer {

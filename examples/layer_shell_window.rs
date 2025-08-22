@@ -6,7 +6,7 @@ use bevy::{
     window::{WindowCreated, WindowResolution},
     winit::WinitPlugin,
 };
-use bevy_wayland::{layer_shell::LayerShellSettings, WaylandPlugin};
+use bevy_wayland::{input_region::InputRegion, layer_shell::LayerShellSettings, WaylandPlugin};
 use smithay_client_toolkit::shell::wlr_layer::{Anchor, Layer};
 
 const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
@@ -30,7 +30,10 @@ fn main() {
         ))
         .init_resource::<NewWindowInfo>()
         .add_systems(Startup, setup)
-        .add_systems(Update, (button_system, setup_new_window, spawn_window))
+        .add_systems(
+            Update,
+            (button_system, spawn_window, setup_new_window, exit_on_esc),
+        )
         .run();
 }
 
@@ -75,11 +78,11 @@ fn setup(mut commands: Commands, assets: Res<AssetServer>, windows: Query<Entity
     for entity in &windows {
         commands.entity(entity).insert((
             LayerShellSettings {
-                anchor: Anchor::all(),
+                anchor: Anchor::TOP | Anchor::LEFT,
                 layer: Layer::Bottom,
                 ..Default::default()
             },
-            WindowTimer(Timer::new(Duration::from_secs(5), TimerMode::Once)),
+            InputRegion(Rect::new(0., 0., 200., 200.)),
         ));
     }
     // ui camera
@@ -87,36 +90,39 @@ fn setup(mut commands: Commands, assets: Res<AssetServer>, windows: Query<Entity
     commands.spawn(button(&assets));
 }
 
+fn exit_on_esc(keys: Res<ButtonInput<KeyCode>>) {
+    if keys.just_pressed(KeyCode::Escape) {
+        std::process::exit(0);
+    }
+}
+
 fn spawn_window(
     mut commands: Commands,
     mut windows: Query<(Entity, &mut WindowTimer)>,
     mut new_window_info: ResMut<NewWindowInfo>,
+    keys: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
 ) {
-    for (entity, mut timer) in &mut windows {
-        timer.tick(time.delta());
+    if keys.pressed(KeyCode::KeyN) {
+        println!("Pressed");
+        let new_window_entity = commands
+            .spawn((
+                Window {
+                    title: "UI Only Window".to_string(),
+                    resolution: (400., 50.).into(),
+                    ..default()
+                },
+                LayerShellSettings {
+                    layer: Layer::Top,
+                    anchor: Anchor::TOP | Anchor::LEFT,
+                    ..default()
+                },
+                WindowTimer(Timer::new(Duration::from_secs(5), TimerMode::Once)),
+            ))
+            .id();
 
-        if timer.finished() {
-            commands.entity(entity).remove::<WindowTimer>();
-            let new_window_entity = commands
-                .spawn((
-                    Window {
-                        title: "UI Only Window".to_string(),
-                        resolution: (400., 50.).into(),
-                        ..default()
-                    },
-                    LayerShellSettings {
-                        layer: Layer::Top,
-                        anchor: Anchor::TOP | Anchor::LEFT,
-                        ..default()
-                    },
-                    WindowTimer(Timer::new(Duration::from_secs(5), TimerMode::Once)),
-                ))
-                .id();
-
-            new_window_info.entity = Some(new_window_entity);
-            new_window_info.is_setup_pending = true;
-        }
+        new_window_info.entity = Some(new_window_entity);
+        new_window_info.is_setup_pending = true;
     }
 }
 

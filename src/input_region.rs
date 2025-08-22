@@ -7,7 +7,7 @@ use smithay_client_toolkit::{
 use crate::{input_region, surface_handler::WaylandSurfaces, WaylandState};
 
 #[derive(Component, Deref)]
-pub struct InputRegion(Rect);
+pub struct InputRegion(pub Rect);
 
 pub struct InputRegionPlugin;
 impl Plugin for InputRegionPlugin {
@@ -27,7 +27,7 @@ fn update_input_region(
             let region = Region::new(compositor.as_ref()).unwrap();
             region.add(
                 input_region.min.x as i32,
-                input_region.max.y as i32,
+                input_region.min.y as i32,
                 input_region.width() as i32,
                 input_region.height() as i32,
             );

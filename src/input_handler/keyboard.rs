@@ -409,6 +409,7 @@ impl KeyboardHandler for WaylandState {
         let active_window_entity = **self.world().resource::<ActiveWindow>();
         let keyboard_event =
             convert_keyboard_event(event, active_window_entity, ButtonState::Pressed);
+        self.world_mut().send_event(keyboard_event.clone());
         self.world_mut()
             .send_event(WindowEvent::KeyboardInput(keyboard_event));
     }
@@ -425,6 +426,7 @@ impl KeyboardHandler for WaylandState {
         let mut keyboard_event =
             convert_keyboard_event(event, active_window_entity, ButtonState::Pressed);
         keyboard_event.repeat = true;
+        self.world_mut().send_event(keyboard_event.clone());
         self.world_mut()
             .send_event(WindowEvent::KeyboardInput(keyboard_event));
     }
@@ -440,6 +442,7 @@ impl KeyboardHandler for WaylandState {
         let active_window_entity = **self.world().resource::<ActiveWindow>();
         let keyboard_event =
             convert_keyboard_event(event, active_window_entity, ButtonState::Released);
+        self.world_mut().send_event(keyboard_event.clone());
         self.world_mut()
             .send_event(WindowEvent::KeyboardInput(keyboard_event));
     }
@@ -454,7 +457,6 @@ impl KeyboardHandler for WaylandState {
         _raw_modifiers: smithay_client_toolkit::seat::keyboard::RawModifiers,
         _layout: u32,
     ) {
-        todo!()
     }
 }
 delegate_keyboard!(WaylandState);

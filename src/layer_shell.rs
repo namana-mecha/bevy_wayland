@@ -1,7 +1,7 @@
 use bevy::{platform::collections::HashMap, prelude::*, ui::update};
 use smithay_client_toolkit::{
     delegate_layer,
-    reexports::client::{globals::GlobalList, Proxy, QueueHandle},
+    reexports::client::{globals::GlobalList, Connection, Proxy, QueueHandle},
     shell::{
         wlr_layer::{
             Anchor, KeyboardInteractivity, Layer, LayerShell, LayerShellHandler, LayerSurface,
@@ -43,7 +43,7 @@ impl LayerShellWindow {
             .set_exclusive_zone(self.layer_shell_settings.exclusive_zone);
 
         let (width, height) = self.layer_shell_settings.size;
-        self.layer_surface.set_size(width, height);
+        self.layer_surface.set_size(400, 400);
 
         let (top, right, bottom, left) = self.layer_shell_settings.margin;
         self.layer_surface.set_margin(top, right, bottom, left);
@@ -95,7 +95,7 @@ impl Default for LayerShellSettings {
             size: Default::default(),
             exclusive_zone: Default::default(),
             margin: Default::default(),
-            keyboard_interactivity: Default::default(),
+            keyboard_interactivity: KeyboardInteractivity::OnDemand,
             layer: Layer::Top,
         }
     }

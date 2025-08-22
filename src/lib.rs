@@ -60,11 +60,10 @@ pub fn runner(mut app: App, mut event_loop: EventLoop<'_, WaylandState>) -> AppE
     let mut state = WaylandState(app);
     loop {
         // TODO: Error handling
-        let _ = event_loop.dispatch(None, &mut state);
-
         if state.plugins_state() == PluginsState::Cleaned {
             state.update();
         }
+        let _ = event_loop.dispatch(None, &mut state);
     }
 }
 
