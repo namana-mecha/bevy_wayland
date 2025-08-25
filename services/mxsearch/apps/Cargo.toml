@@ -1,0 +1,16 @@
+[package]
+name = "apps"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { workspace = true }
+notify = { workspace = true }
+dirs = { workspace = true }
+anyhow = { workspace = true }
+tantivy = { workspace = true }
+log = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+zbus = { workspace = true }
+configparser = "3.1.0"
