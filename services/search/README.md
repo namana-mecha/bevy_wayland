@@ -171,7 +171,7 @@ searchable_fields = [
 ## 🚀 Running MxSearch
 
 ```bash
- RUST_LOG=none,mxsearch=debug,apps=debug,files=debug cargo run
+ RUST_LOG=none,search=debug,apps=debug,files=debug cargo run
 ```
 
 ## TODOs

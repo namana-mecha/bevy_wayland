@@ -2,10 +2,12 @@
 resolver = "3"
 members = [
     "services/desktop",
-    "services/search",
-    "services/mxsearch",
     "services/conf",
     "services/system",
+    "services/search/apps",
+    "services/search/files",
+    "services/search/server",
+    "services/search/app_actions",
     "shell/launcher",
     "shell/keyboard",
     "shell/notification",
@@ -27,7 +29,17 @@ license = "MIT"
 repository = "https://github.com/mecha-org/mechanix-gui"
 homepage = "https://mecha.so"
 categories = ["gui"]
-keywords = ["linux", "shell", "mobile", "gui", "ui", "graphics", "interface", "widgets"]
+keywords = ["linux", "shell", "mobile", "gui", "ui"]
 
 [workspace.dependencies]
 mxconf_dbus = { path = "dbus/mechanix/mxconf" }
+notify = { version = "8.2.0" }
+tokio = { version = "1.46.1", features = ["full"] }
+log = { version = "0.4.27" }
+configparser = { version = "3.1.0" }
+tantivy = { git = "https://github.com/quickwit-oss/tantivy.git", branch = "main" }
+anyhow = { version = "1.0.99" }
+zbus = "3.14.1"
+serde = { version = "1.0.219", features = ["derive"] }
+futures = "0.3.31"
+thiserror = "2.0.12"

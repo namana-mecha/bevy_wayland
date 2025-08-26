@@ -17,14 +17,19 @@
       <sourceFolder url="file://$MODULE_DIR$/services/conf/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/services/desktop/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/search/app_actions/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/services/search/app_actions/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/services/search/apps/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/search/apps/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/search/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/services/search/files/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/search/files/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/search/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/services/system/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/shell/keyboard/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/shell/launcher/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/shell/notification/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/services/search/server/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/services/search/server/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/services/search/app_actions/target" />
       <excludeFolder url="file://$MODULE_DIR$/services/search/files/target" />
       <excludeFolder url="file://$MODULE_DIR$/services/search/target" />

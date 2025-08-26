@@ -195,7 +195,7 @@ impl AppActionsService {
     }
     /// Create the Tantivy schema for `.desktop` fields
     fn create_schema() -> Schema {
-        let mut schema_builder = tantivy::schema::Schema::builder();
+        let mut schema_builder = Schema::builder();
         // top-level fields
         schema_builder.add_text_field("name", STRING | STORED);
         schema_builder.add_text_field("icon", STRING | STORED);

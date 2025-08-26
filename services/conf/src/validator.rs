@@ -1,6 +1,6 @@
 use crate::error::ValidatorError;
 use anyhow::Context;
-use log::{debug, error, info, trace, warn};
+use log::{debug, error, info, trace};
 use regex::Regex;
 use toml::Value;
 
@@ -204,7 +204,7 @@ fn validate_enum_type(entry: &toml::value::Table, key: &str, section: &str) -> R
 /// - The type is not specified in the schema
 /// - The value does not conform to the specified type
 /// - For enums, the value is not in the options list
-pub fn validate_setting(schema: &toml::Value, namespace: &str, value: &str) -> Result<(), String> {
+pub fn validate_setting(schema: &Value, namespace: &str, value: &str) -> Result<(), String> {
     debug!("Validating setting '{}' with value '{}'", namespace, value);
 
     // This function is similar to validate_value but with a different entry point
@@ -271,7 +271,7 @@ pub fn validate_setting(schema: &toml::Value, namespace: &str, value: &str) -> R
 /// - The type is not specified in the schema
 /// - The value does not conform to the specified type
 /// - For enums, the value is not in the options list
-pub fn validate_value(schema_entry: &toml::Value, namespace: &str, value: &str) -> Result<(), String> {
+pub fn validate_value(schema_entry: &Value, namespace: &str, value: &str) -> Result<(), String> {
     debug!("Validating value '{}' for namespace '{}'", value, namespace);
 
     let parts: Vec<&str> = namespace.split('.').skip(3).collect();
@@ -324,7 +324,7 @@ pub fn validate_value(schema_entry: &toml::Value, namespace: &str, value: &str) 
 ///
 /// * `Some(&toml::Value)` if the entry is found
 /// * `None` if any part of the path doesn't exist
-fn get_schema_entry<'a>(schema: &'a toml::Value, path: &[&str]) -> Option<&'a toml::Value> {
+fn get_schema_entry<'a>(schema: &'a Value, path: &[&str]) -> Option<&'a Value> {
     trace!("Getting schema entry for path: {:?}", path);
     let mut current = schema;
     for key in path {
