@@ -3,6 +3,7 @@ resolver = "3"
 members = [
     "services/desktop",
     "services/search",
+    "services/mxsearch",
     "services/conf",
     "services/system",
     "shell/launcher",
