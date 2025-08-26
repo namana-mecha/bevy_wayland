@@ -7,10 +7,10 @@ edition = "2024"
 tokio = { workspace = true }
 notify = { workspace = true }
 anyhow = { workspace = true }
-tantivy = { workspace = true }
 log = { workspace = true }
 futures = { workspace = true }
 serde = { workspace = true }
 zbus = { workspace = true }
-configparser = "3.1.0"
+configparser = { version = "3.1.0"}
 dirs = { version = "6.0.0" }
+tantivy = { git = "https://github.com/quickwit-oss/tantivy.git", branch = "main" }
