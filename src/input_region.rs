@@ -1,10 +1,7 @@
-use bevy::{core_pipeline::core_2d::graph::input, prelude::*};
-use smithay_client_toolkit::{
-    compositor::{CompositorState, Region},
-    reexports::client::{protocol::wl_compositor::WlCompositor, QueueHandle},
-};
+use bevy::prelude::*;
+use smithay_client_toolkit::compositor::{CompositorState, Region};
 
-use crate::{input_region, surface_handler::WaylandSurfaces, WaylandState};
+use crate::surface_handler::WaylandSurfaces;
 
 #[derive(Component, Deref)]
 pub struct InputRegion(pub Rect);
