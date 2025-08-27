@@ -1,7 +1,7 @@
-use bevy::{platform::collections::HashMap, prelude::*, ui::update};
+use bevy::{platform::collections::HashMap, prelude::*};
 use smithay_client_toolkit::{
     delegate_layer,
-    reexports::client::{globals::GlobalList, Connection, Proxy, QueueHandle},
+    reexports::client::{globals::GlobalList, QueueHandle},
     shell::{
         wlr_layer::{
             Anchor, KeyboardInteractivity, Layer, LayerShell, LayerShellHandler, LayerSurface,
@@ -21,12 +21,18 @@ struct LayerShellWindows(HashMap<Entity, LayerShellWindow>);
 struct LayerShellWindow {
     layer_surface: LayerSurface,
     layer_shell_settings: LayerShellSettings,
+    window_size: (u32, u32),
 }
 impl LayerShellWindow {
-    fn new(layer_surface: LayerSurface, layer_shell_settings: LayerShellSettings) -> Self {
+    fn new(
+        layer_surface: LayerSurface,
+        layer_shell_settings: LayerShellSettings,
+        window_size: (u32, u32),
+    ) -> Self {
         let mut layer_shell_window = Self {
             layer_surface,
             layer_shell_settings,
+            window_size,
         };
         layer_shell_window.sync();
         layer_shell_window
@@ -42,8 +48,12 @@ impl LayerShellWindow {
         self.layer_surface
             .set_exclusive_zone(self.layer_shell_settings.exclusive_zone);
 
-        let (width, height) = self.layer_shell_settings.size;
-        self.layer_surface.set_size(400, 400);
+        if let LayerShellWindowSize::Fixed(width, height) = self.layer_shell_settings.size {
+            self.layer_surface.set_size(width, height);
+        } else {
+            self.layer_surface
+                .set_size(self.window_size.0, self.window_size.1);
+        }
 
         let (top, right, bottom, left) = self.layer_shell_settings.margin;
         self.layer_surface.set_margin(top, right, bottom, left);
@@ -59,6 +69,13 @@ impl LayerShellWindow {
     }
 }
 
+#[derive(Default, Eq, PartialEq, Clone, Debug)]
+pub enum LayerShellWindowSize {
+    #[default]
+    Inherit,
+    Fixed(u32, u32),
+}
+
 #[derive(Component, Debug, Clone, PartialEq, Eq)]
 pub struct LayerShellSettings {
     /// Defines where the layer surface should be anchored to the screen.
@@ -66,7 +83,7 @@ pub struct LayerShellSettings {
     /// You can anchor the layer surface to any combination of the top, bottom, left, and right edges of the screen.
     pub anchor: Anchor,
     /// Defines the size of the layer surface in pixels.
-    pub size: (u32, u32),
+    pub size: LayerShellWindowSize,
     /// Defines the amount of exclusive space the layer surface should reserve.
     ///
     /// Other surfaces will not be placed in this area. A negative value means that the layer surface
@@ -118,7 +135,7 @@ fn assign_layer_shell_role(
     windows: Query<(Entity, &Window, &LayerShellSettings), Without<SurfaceConfigured>>,
     mut layer_shell_windows: NonSendMut<LayerShellWindows>,
 ) {
-    for (entity, _window, layer_shell_settings) in &windows {
+    for (entity, window, layer_shell_settings) in &windows {
         let window_wrapper = wayland_surfaces.get_window_wrapper(entity);
         let surface = window_wrapper
             .expect("tried to assign role before creating surface!")
@@ -136,7 +153,11 @@ fn assign_layer_shell_role(
 
         let _ = layer_shell_windows.insert(
             entity,
-            LayerShellWindow::new(layer, layer_shell_settings.clone()),
+            LayerShellWindow::new(
+                layer,
+                layer_shell_settings.clone(),
+                (window.width() as u32, window.height() as u32),
+            ),
         );
 
         commands.entity(entity).insert(SurfaceConfigured);
@@ -147,8 +168,10 @@ fn update_layer_shell_settings(
     mut layer_shell_windows: NonSendMut<LayerShellWindows>,
     windows: Query<(Entity, &Window, &LayerShellSettings), Without<SurfaceConfigured>>,
 ) {
-    for (entity, _window, layer_shell_settings) in &windows {
+    for (entity, window, layer_shell_settings) in &windows {
         let layer_shell_window = layer_shell_windows.get_mut(&entity).unwrap();
+        let window_size = (window.width() as u32, window.height() as u32);
+        layer_shell_window.window_size = window_size;
         layer_shell_window.set_settings(layer_shell_settings.clone());
     }
 }
