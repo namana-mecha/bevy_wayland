@@ -1,8 +1,7 @@
 [package]
-name = "mechanix-launcher"
-description = "Launcher application"
+name = "types"
+edition = "2024"
 version.workspace = true
-edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
@@ -11,4 +10,5 @@ categories.workspace = true
 keywords.workspace = true
 
 [dependencies]
-mxconf_dbus = { workspace = true}
+bevy = { workspace = true }
+bevy_asset_loader = { workspace = true }
