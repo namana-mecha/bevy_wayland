@@ -16,6 +16,7 @@ mod input_handler;
 pub mod input_region;
 pub mod layer_shell;
 mod output_handler;
+pub mod session_lock;
 mod surface_handler;
 
 #[derive(Default)]
@@ -42,9 +43,10 @@ impl Plugin for WaylandPlugin {
 
         app.add_plugins((
             output_handler::OutputHandlerPlugin,
-            input_handler::InputHandlerPlugin,
             surface_handler::SurfaceHandlerPlugin,
+            input_handler::InputHandlerPlugin,
             layer_shell::LayerShellPlugin,
+            session_lock::SessionLockPlugin,
             input_region::InputRegionPlugin,
         ));
         app.set_runner(|app| runner(app, event_loop));
