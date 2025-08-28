@@ -23,3 +23,4 @@ running_apps = { path = "../running_apps" }
 settings_drawer = { path = "../settings_drawer" }
 status_bar = { path = "../status_bar" }
 universal_search = { path = "../universal_search" }
+bevy_wayland = { workspace = true }
