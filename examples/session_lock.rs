@@ -1,16 +1,9 @@
-use std::time::Duration;
-
 use bevy::{
-    color::palettes::basic::*,
     prelude::*,
-    window::{exit_on_all_closed, WindowCreated, WindowRef, WindowResolution},
+    window::{exit_on_all_closed, WindowRef},
     winit::WinitPlugin,
 };
-use bevy_wayland::{
-    layer_shell::LayerShellSettings,
-    session_lock::{SessionLockEvent, SessionLockWindow},
-    WaylandPlugin,
-};
+use bevy_wayland::prelude::*;
 use smithay_client_toolkit::shell::wlr_layer::{Anchor, Layer};
 
 const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
