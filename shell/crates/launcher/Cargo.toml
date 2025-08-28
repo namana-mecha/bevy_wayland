@@ -1,0 +1,25 @@
+[package]
+name = "mechanix-launcher"
+description = "Launcher application"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+categories.workspace = true
+keywords.workspace = true
+
+[dependencies]
+mxconf_dbus = { workspace = true }
+bevy = { workspace = true }
+app_drawer = { path = "../app_drawer" }
+background = { path = "../background" }
+homescreen = { path = "../homescreen" }
+lockscreen = { path = "../lockscreen" }
+navigation_bar = { path = "../navigation_bar" }
+notifications_drawer = { path = "../notifications_drawer" }
+running_apps = { path = "../running_apps" }
+settings_drawer = { path = "../settings_drawer" }
+status_bar = { path = "../status_bar" }
+universal_search = { path = "../universal_search" }
