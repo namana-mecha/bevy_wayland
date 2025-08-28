@@ -6,8 +6,7 @@ use bevy::{
     window::{WindowCreated, WindowResolution},
     winit::WinitPlugin,
 };
-use bevy_wayland::{input_region::InputRegion, layer_shell::LayerShellSettings, WaylandPlugin};
-use smithay_client_toolkit::shell::wlr_layer::{Anchor, Layer};
+use bevy_wayland::prelude::*;
 
 const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
 const HOVERED_BUTTON: Color = Color::srgb(0.25, 0.25, 0.25);
