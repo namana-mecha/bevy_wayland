@@ -5,7 +5,7 @@ use smithay_client_toolkit::{
     reexports::{
         calloop::EventLoop,
         calloop_wayland_source::WaylandSource,
-        client::{globals::registry_queue_init, Connection},
+        client::{Connection, globals::registry_queue_init},
     },
     registry::{ProvidesRegistryState, RegistryState},
     registry_handlers,
@@ -18,6 +18,13 @@ pub mod layer_shell;
 mod output_handler;
 pub mod session_lock;
 mod surface_handler;
+
+pub mod prelude {
+    pub use crate::WaylandPlugin;
+    pub use crate::input_region::InputRegion;
+    pub use crate::layer_shell::{LayerShellSettings, LayerShellWindowSize};
+    pub use smithay_client_toolkit::shell::wlr_layer::{Anchor, KeyboardInteractivity, Layer};
+}
 
 #[derive(Default)]
 pub struct WaylandPlugin;
