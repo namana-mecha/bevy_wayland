@@ -1,5 +1,4 @@
 use std::{
-    num::NonZero,
     sync::mpsc::SendError,
     time::{Duration, Instant},
 };
@@ -18,6 +17,7 @@ use smithay_client_toolkit::{
     seat::SeatState,
 };
 
+pub mod foreign_toplevel_manager;
 mod input_handler;
 pub mod input_region;
 pub mod layer_shell;
@@ -85,6 +85,7 @@ impl Plugin for WaylandPlugin {
             layer_shell::LayerShellPlugin,
             session_lock::SessionLockPlugin,
             input_region::InputRegionPlugin,
+            foreign_toplevel_manager::ForeignToplevelManagerPlugin,
         ));
         app.set_runner(|app| runner(app, event_loop));
     }
