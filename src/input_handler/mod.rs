@@ -12,6 +12,7 @@ use crate::WaylandState;
 
 mod keyboard;
 mod pointer;
+mod touch;
 
 pub struct InputHandlerPlugin;
 impl Plugin for InputHandlerPlugin {
